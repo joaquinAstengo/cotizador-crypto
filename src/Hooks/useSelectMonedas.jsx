@@ -1,5 +1,5 @@
 import styled from '@emotion/styled/'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 const useSelectMonedas = (label, opciones) => {
 
