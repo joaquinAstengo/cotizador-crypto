@@ -25,13 +25,14 @@ const InputSubmit = styled.input`
     }
 `
 
-const Formulario = () => {
-    const [criptos, setCriptos] = useState([])
-    const [error, setError] = useState(false)
+const Formulario = ({ setMonedas }) => {
 
+    const [error, setError] = useState(false)
+    
+    const [criptos, setCriptos] = useState([])
     const [moneda, SelectMonedas] = useSelectMonedas('Elige tu moneda', monedas)
     const [criptomoneda, SelectCriptoMonedas] = useSelectMonedas('Elige tu Criptomoneda', criptos)
-
+    
 
     useEffect(() => {
 
@@ -63,16 +64,20 @@ const Formulario = () => {
             return
         }
         setError(false)
+        setMonedas({
+            moneda,
+            criptomoneda
+        })
     }
 
     return (
         <>
             {error && <Error>Complete todos los campos</Error>}
-            <form
-                onClick={handleSubmit}>
+            <form>
                 <SelectMonedas>{moneda}</SelectMonedas>
                 <SelectCriptoMonedas>{criptomoneda}</SelectCriptoMonedas>
                 <InputSubmit
+                    onClick={handleSubmit}
                     type="submit"
                     value="Cotizar"></InputSubmit>
             </form>
