@@ -31,8 +31,8 @@ const Formulario = ({ setMonedas }) => {
     
     const [criptos, setCriptos] = useState([])
 
-    const [moneda, SelectMonedas] = useSelectMonedas('Elige tu moneda', monedas)
-    const [criptomoneda, SelectCriptoMonedas] = useSelectMonedas('Elige tu Criptomoneda', criptos)
+    const [moneda, SelectMonedas] = useSelectMonedas('Elige una moneda FIAT', monedas)
+    const [criptomoneda, SelectCriptoMonedas] = useSelectMonedas('Elige una Criptomoneda', criptos)
     
     
     useEffect(() => {
