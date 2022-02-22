@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import Error from './Error'
 import { useEffect } from 'react'
 import useSelectMonedas from '../Hooks/useSelectMonedas'
 import { monedas } from '../data/monedas'
@@ -26,11 +27,15 @@ const InputSubmit = styled.input`
 
 const Formulario = () => {
     const [criptos, setCriptos] = useState([])
+    const [error, setError] = useState(false)
 
-    const [moneda, SelectMonedas ] = useSelectMonedas('Elige tu moneda', monedas)
+    const [moneda, SelectMonedas] = useSelectMonedas('Elige tu moneda', monedas)
+    const [criptomoneda, SelectCriptoMonedas] = useSelectMonedas('Elige tu Criptomoneda', criptos)
+
+
     useEffect(() => {
 
-        const consultarAPI =async()=>{
+        const consultarAPI = async () => {
             const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD'
             const respuesta = await fetch(url)
             const resultado = await respuesta.json()
@@ -43,7 +48,7 @@ const Formulario = () => {
                 }
 
                 return objeto
-            }) 
+            })
             setCriptos(arrayCriptos)
         }
 
@@ -51,13 +56,27 @@ const Formulario = () => {
         consultarAPI()
     }, [])
 
-  return (
-        <form>
-            <SelectMonedas>{moneda}</SelectMonedas>
-            <InputSubmit
-            type="submit"
-            value="Cotizar"></InputSubmit>
-        </form>
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if ([moneda, criptomoneda].includes('')) {
+            setError(true)
+            return
+        }
+        setError(false)
+    }
+
+    return (
+        <>
+            {error && <Error>Complete todos los campos</Error>}
+            <form
+                onClick={handleSubmit}>
+                <SelectMonedas>{moneda}</SelectMonedas>
+                <SelectCriptoMonedas>{criptomoneda}</SelectCriptoMonedas>
+                <InputSubmit
+                    type="submit"
+                    value="Cotizar"></InputSubmit>
+            </form>
+        </>
     )
 }
 
